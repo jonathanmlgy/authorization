@@ -1,0 +1,2156 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyHour",
+              "minute": null
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "1LcjXIDcDNWdI2tD-5-MJ4IQ-Gs889Tmr",
+          "mode": "list",
+          "cachedResultName": "Test Authorization",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1LcjXIDcDNWdI2tD-5-MJ4IQ-Gs889Tmr"
+        },
+        "event": "fileCreated",
+        "options": {}
+      },
+      "id": "72178cae-89d9-439f-99a0-25c05a4ac066",
+      "name": "📁 Watch Drive Folder",
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1872,
+        -80
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "U0FQXOM4xqS14dX5",
+          "name": "Google Drive OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.mimeType }}",
+              "value2": "application/pdf"
+            }
+          ]
+        }
+      },
+      "id": "add986ef-f1c9-4cf5-b245-5b81ac864317",
+      "name": "🔎 Is it a PDF?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -1536,
+        -96
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {
+          "fileName": "={{ $json.name }}"
+        }
+      },
+      "id": "53694bce-7b33-44bb-ae0f-0ec15fa9656d",
+      "name": "⬇️ Download PDF",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -1280,
+        -112
+      ],
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "yM9DFL4L76lMenTo",
+          "name": "Google Drive OAuth2 API"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1BSmewDIKACfE3R52vO5bFVV4pwwgr_NDjpYhFoOII4Q",
+          "mode": "list",
+          "cachedResultName": "Copy of AI automation example sheet 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BSmewDIKACfE3R52vO5bFVV4pwwgr_NDjpYhFoOII4Q/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BSmewDIKACfE3R52vO5bFVV4pwwgr_NDjpYhFoOII4Q/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Student": "={{ $('AI Agent').item.json.output.student_name }}",
+            "Guardian Name": "={{ $('AI Agent').item.json.output.guardian_name }}",
+            "Authorization Comments": "={{ $('AI Agent').item.json.output.authorization_comments }}",
+            "Hours Per Month": "={{ $('AI Agent').item.json.output.hours_per_month }}",
+            "Summer": "=",
+            "Current Auth Expiration Date Format: MM/DD/YY": "={{ $('AI Agent').item.json.output.current_auth_exp_date }}",
+            "Requested Schedule": "={{ $('AI Agent').item.json.output.requested_schedule }}",
+            "Parent Requested Mode of Services": "={{ $('AI Agent').item.json.output.parent_requested_mode_of_services }}",
+            "UCI": "={{ $('AI Agent').item.json.output.UCI }}",
+            "Contract Service Date 1st Auth": "={{ $('AI Agent').item.json.output.authorization_date }}",
+            "Parent Feedback": "={{ $('AI Agent').item.json.output.parent_feedback }}",
+            "Start Date Track": "={{ $('AI Agent').item.json.output.start_date_track }}",
+            "Validation: CONCAT Service Dates": "={{ $('AI Agent').item.json.output.authorization_date }}",
+            "Validation: Contract Service Date": "={{ $('AI Agent').item.json.output.current_auth_exp_date }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "UCI",
+              "displayName": "UCI",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Student",
+              "displayName": "Student",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Guardian Name",
+              "displayName": "Guardian Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CL Director",
+              "displayName": "CL Director",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Spanish",
+              "displayName": "Spanish",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Category",
+              "displayName": "Category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Assessment",
+              "displayName": "Assessment",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Authorization Comments",
+              "displayName": "Authorization Comments",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Contract Service Date 1st Auth",
+              "displayName": "Contract Service Date 1st Auth",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "2nd Authorization",
+              "displayName": "2nd Authorization",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "3rd Authorization",
+              "displayName": "3rd Authorization",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "4th Authorization",
+              "displayName": "4th Authorization",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Current Auth Expiration Date Format: MM/DD/YY",
+              "displayName": "Current Auth Expiration Date Format: MM/DD/YY",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Requested Authorization (Pending)",
+              "displayName": "Requested Authorization (Pending)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Hours Per Month",
+              "displayName": "Hours Per Month",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Upcoming Renewal Status",
+              "displayName": "Upcoming Renewal Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Summer",
+              "displayName": "Summer",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Authorization Status",
+              "displayName": "Authorization Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "SC\n(First Name Last Name)",
+              "displayName": "SC\n(First Name Last Name)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Student status",
+              "displayName": "Student status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pending Confirmation",
+              "displayName": "Pending Confirmation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Hard to Contact",
+              "displayName": "Hard to Contact",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Requested Schedule",
+              "displayName": "Requested Schedule",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Areas of Support",
+              "displayName": "Areas of Support",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Parent Requested Mode of Services",
+              "displayName": "Parent Requested Mode of Services",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Virtual Tutor List",
+              "displayName": "Virtual Tutor List",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Current Virtual Tutor",
+              "displayName": "Current Virtual Tutor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "In Home Tutor List",
+              "displayName": "In Home Tutor List",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Current In Home Tutor",
+              "displayName": "Current In Home Tutor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Additional Notes",
+              "displayName": "Additional Notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Parent Feedback",
+              "displayName": "Parent Feedback",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Parent Feedback (orginal AG)",
+              "displayName": "Parent Feedback (orginal AG)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Start Date Track",
+              "displayName": "Start Date Track",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Validation: CONCAT Service Dates",
+              "displayName": "Validation: CONCAT Service Dates",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Validation: Contract Service Date",
+              "displayName": "Validation: Contract Service Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Validation: Current Auth Expiration Date",
+              "displayName": "Validation: Current Auth Expiration Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Validation:\nService Date = Expiration Date",
+              "displayName": "Validation:\nService Date = Expiration Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Standardized SC Names",
+              "displayName": "Standardized SC Names",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "ae0c0bb5-bded-4fdf-923c-572ae045af88",
+      "name": "📊 Append to Google Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -64,
+        128
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "8VvWefvAHkhnoeWe",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Extract fields from this authorization document:\n\n{{ $json.text }}",
+        "hasOutputParser": true,
+        "needsFallback": true,
+        "options": {
+          "systemMessage": "You are a data extraction and formatting assistant.\n\nYour task is to analyze the input text provided by the workflow and extract the required fields exactly as instructed.\n\nRULES:\n1. Use ONLY information found in the provided input text.\n2. Do not invent, infer, or hallucinate missing information.\n3. If a field is missing, output \"Not Found\".\n4. Follow formatting instructions exactly.\n5. Return output in the exact template below.\n6. \"Authorization Comments\" must be extracted specifically from the Service Details section.\n7. Preserve names exactly as written.\n8. Reformat dates when needed to match required output format.\n\nFIELD FORMATTING RULES:\n\n- UCI: Client I.D.\n\n- Authorization Date format:\nMM/DD/YY - MM/DD/YY\nExample:\n09/01/26 - 12/31/26\n\n- Current Auth Exp Date format:\nMM/DD/YY\nExample:\n12/31/26\n\n- Hours Per Month format:\n[number] hours/month (MM/DD/YY - MM/DD/YY)\nExample:\n30 hours/month (09/01/26 - 12/31/26)\n\n- Requested Schedule format:\ntime-day pattern + mode\nExample:\n3pm-7pm M-Th virtual\n\n- Parent Requested Mode of Services:\nExtract requested service mode only\nExample:\nVirtual\n\n- Start Date Track:\nPreserve full original date format exactly like:\nMon Feb 01 2025 03:00:00 GMT-0800 (Pacific Standard Time)\n\n\n\nOUTPUT FORMAT (Return exactly this structure):\n\nUCI: [value] || null\n\nStudent Name: [value] || null\n\nGuardian Name: [value] || null\n\nAuthorization Comments: [value] || null\n\nAuthorization Date: [value] || null\n\nCurrent Auth Exp Date: [value] || null\n\nHours Per Month: [value] || null\n\nRequested Schedule: [value] || null\n\nParent Requested Mode of Services: [value] || null\n\nParent Feedback: [value] || null\n\nStart Date Track: [value] || null\n\nIf data does not exist, return: null\nIf multiple values exist, choose the most current authorization unless the input explicitly states otherwise."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -864,
+        -112
+      ],
+      "id": "72c13f62-8749-4239-b308-f27c0e237426",
+      "name": "AI Agent",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -944,
+        128
+      ],
+      "id": "35c6dae5-4ca3-4f3e-9eaf-8b3aa5161385",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "NQ8onqVUzYEYT6iL",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        -1040,
+        -112
+      ],
+      "id": "001fe3c1-7ee5-453c-b37b-2729068ee84a",
+      "name": "Extract from File",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"UCI\": {\n      \"type\": \"string\",\n      \"description\": \"Full client ID exactly as written in source text\"\n    },\n    \"student_name\": {\n      \"type\": \"string\",\n      \"description\": \"Full student name exactly as written in source text\"\n    },\n    \"guardian_name\": {\n      \"type\": \"string\",\n      \"description\": \"Full guardian name exactly as written in source text\"\n    },\n    \"authorization_comments\": {\n      \"type\": \"string\",\n      \"description\": \"Authorization comments extracted specifically from Service Details\"\n    },\n    \"authorization_date\": {\n      \"type\": \"string\",\n      \"description\": \"Authorization range formatted MM/DD/YY - MM/DD/YY\"\n    },\n    \"current_auth_exp_date\": {\n      \"type\": \"string\",\n      \"description\": \"Current authorization expiration date formatted MM/DD/YY\"\n    },\n    \"hours_per_month\": {\n      \"type\": \"string\",\n      \"description\": \"Format exactly like 30 hours/month (09/01/26 - 12/31/26)\"\n    },\n    \"requested_schedule\": {\n      \"type\": \"string\",\n      \"description\": \"Requested schedule format like 3pm-7pm M-Th virtual\"\n    },\n    \"parent_requested_mode_of_services\": {\n      \"type\": \"string\",\n      \"description\": \"Service mode only, e.g. virtual, in-person, hybrid\"\n    },\n    \"parent_feedback\": {\n      \"type\": \"string\",\n      \"description\": \"Parent feedback comments\"\n    },\n    \"start_date_track\": {\n      \"type\": \"string\",\n      \"description\": \"Preserve full original date format exactly, e.g. Mon Feb 01 2025 03:00:00 GMT-0800 (Pacific Standard Time)\"\n    }\n  },\n  \"required\": [\n    \"student_name\",\n    \"guardian_name\",\n    \"authorization_comments\",\n    \"authorization_date\",\n    \"current_auth_exp_date\",\n    \"hours_per_month\",\n    \"requested_schedule\",\n    \"parent_requested_mode_of_services\",\n    \"parent_feedback\",\n    \"start_date_track\"\n  ]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -656,
+        112
+      ],
+      "id": "c4045ad3-97dd-4b8e-8353-62428071df37",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "model": "llama-3.3-70b-versatile",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        -784,
+        128
+      ],
+      "id": "053d75d2-45c0-4e54-96b1-e87452938232",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "mzq5mGjVSb4JGnGD",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1BSmewDIKACfE3R52vO5bFVV4pwwgr_NDjpYhFoOII4Q",
+          "mode": "list",
+          "cachedResultName": "Copy of AI automation example sheet 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BSmewDIKACfE3R52vO5bFVV4pwwgr_NDjpYhFoOII4Q/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BSmewDIKACfE3R52vO5bFVV4pwwgr_NDjpYhFoOII4Q/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "UCI",
+              "lookupValue": "={{ $json.output.UCI }}"
+            }
+          ]
+        },
+        "combineFilters": "OR",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -464,
+        -128
+      ],
+      "id": "4ffccdbe-ddd6-4414-a203-74d840f155ca",
+      "name": "Get row(s) in sheet",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "8VvWefvAHkhnoeWe",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "41dd5c43-e102-41cd-b7d9-5733d5f0d964",
+              "leftValue": "={{ $json.UCI }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -272,
+        -128
+      ],
+      "id": "9298cfa0-900a-42b0-9b5f-29450d03e2ae",
+      "name": "if existing client"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a46872f0-d4e5-4b01-82d7-13b434c8e26c",
+                    "leftValue": "={{ $json['2nd Authorization'] }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "empty",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "8b1050cb-2c94-414f-b460-0ec014259704",
+                    "leftValue": "={{ $json['3rd Authorization'] }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "empty",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a21c7627-0fbc-4a55-8dbf-d69602552ee2",
+                    "leftValue": "={{ $json['4th Authorization'] }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "empty",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -64,
+        -320
+      ],
+      "id": "90e6f313-32cb-4efa-8104-13f642b1d084",
+      "name": "check authorization"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1BSmewDIKACfE3R52vO5bFVV4pwwgr_NDjpYhFoOII4Q",
+          "mode": "list",
+          "cachedResultName": "Copy of AI automation example sheet 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BSmewDIKACfE3R52vO5bFVV4pwwgr_NDjpYhFoOII4Q/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BSmewDIKACfE3R52vO5bFVV4pwwgr_NDjpYhFoOII4Q/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "UCI": "={{ $json.UCI }}",
+            "2nd Authorization": "={{ $('AI Agent').item.json.output.authorization_date }}",
+            "3rd Authorization": "=",
+            "Current Auth Expiration Date Format: MM/DD/YY": "={{ $('AI Agent').item.json.output.current_auth_exp_date }}",
+            "Authorization Comments": "={{ $json['Authorization Comments'] }}, {{ $('AI Agent').item.json.output.authorization_comments }}",
+            "Validation: CONCAT Service Dates": "={{ $json['Validation: CONCAT Service Dates'] }}, {{ $('AI Agent').item.json.output.authorization_date }}"
+          },
+          "matchingColumns": [
+            "UCI"
+          ],
+          "schema": [
+            {
+              "id": "UCI",
+              "displayName": "UCI",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Student",
+              "displayName": "Student",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Guardian Name",
+              "displayName": "Guardian Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CL Director",
+              "displayName": "CL Director",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Spanish",
+              "displayName": "Spanish",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Category",
+              "displayName": "Category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Assessment",
+              "displayName": "Assessment",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Authorization Comments",
+              "displayName": "Authorization Comments",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Contract Service Date 1st Auth",
+              "displayName": "Contract Service Date 1st Auth",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "2nd Authorization",
+              "displayName": "2nd Authorization",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "3rd Authorization",
+              "displayName": "3rd Authorization",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "4th Authorization",
+              "displayName": "4th Authorization",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Current Auth Expiration Date Format: MM/DD/YY",
+              "displayName": "Current Auth Expiration Date Format: MM/DD/YY",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Requested Authorization (Pending)",
+              "displayName": "Requested Authorization (Pending)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Hours Per Month",
+              "displayName": "Hours Per Month",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Upcoming Renewal Status",
+              "displayName": "Upcoming Renewal Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Summer",
+              "displayName": "Summer",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Authorization Status",
+              "displayName": "Authorization Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "SC\n(First Name Last Name)",
+              "displayName": "SC\n(First Name Last Name)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Student status",
+              "displayName": "Student status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pending Confirmation",
+              "displayName": "Pending Confirmation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Hard to Contact",
+              "displayName": "Hard to Contact",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Requested Schedule",
+              "displayName": "Requested Schedule",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Areas of Support",
+              "displayName": "Areas of Support",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Parent Requested Mode of Services",
+              "displayName": "Parent Requested Mode of Services",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Virtual Tutor List",
+              "displayName": "Virtual Tutor List",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Current Virtual Tutor",
+              "displayName": "Current Virtual Tutor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "In Home Tutor List",
+              "displayName": "In Home Tutor List",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Current In Home Tutor",
+              "displayName": "Current In Home Tutor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Additional Notes",
+              "displayName": "Additional Notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Parent Feedback",
+              "displayName": "Parent Feedback",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Parent Feedback (orginal AG)",
+              "displayName": "Parent Feedback (orginal AG)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Start Date Track",
+              "displayName": "Start Date Track",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Validation: CONCAT Service Dates",
+              "displayName": "Validation: CONCAT Service Dates",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Validation: Contract Service Date",
+              "displayName": "Validation: Contract Service Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Validation: Current Auth Expiration Date",
+              "displayName": "Validation: Current Auth Expiration Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Validation:\nService Date = Expiration Date",
+              "displayName": "Validation:\nService Date = Expiration Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Standardized SC Names",
+              "displayName": "Standardized SC Names",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        160,
+        -464
+      ],
+      "id": "9aa15939-0906-446e-a67b-dfffb2cebaea",
+      "name": "Update row in sheet (2nd authorization)",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "8VvWefvAHkhnoeWe",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1BSmewDIKACfE3R52vO5bFVV4pwwgr_NDjpYhFoOII4Q",
+          "mode": "list",
+          "cachedResultName": "Copy of AI automation example sheet 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BSmewDIKACfE3R52vO5bFVV4pwwgr_NDjpYhFoOII4Q/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BSmewDIKACfE3R52vO5bFVV4pwwgr_NDjpYhFoOII4Q/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "UCI",
+              "displayName": "UCI",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Student",
+              "displayName": "Student",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Guardian Name",
+              "displayName": "Guardian Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CL Director",
+              "displayName": "CL Director",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Spanish",
+              "displayName": "Spanish",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Category",
+              "displayName": "Category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Assessment",
+              "displayName": "Assessment",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Authorization Comments",
+              "displayName": "Authorization Comments",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Contract Service Date 1st Auth",
+              "displayName": "Contract Service Date 1st Auth",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "2nd Authorization",
+              "displayName": "2nd Authorization",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "3rd Authorization",
+              "displayName": "3rd Authorization",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "4th Authorization",
+              "displayName": "4th Authorization",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Current Auth Expiration Date Format: MM/DD/YY",
+              "displayName": "Current Auth Expiration Date Format: MM/DD/YY",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Requested Authorization (Pending)",
+              "displayName": "Requested Authorization (Pending)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Hours Per Month",
+              "displayName": "Hours Per Month",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Upcoming Renewal Status",
+              "displayName": "Upcoming Renewal Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Summer",
+              "displayName": "Summer",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Authorization Status",
+              "displayName": "Authorization Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "SC\n(First Name Last Name)",
+              "displayName": "SC\n(First Name Last Name)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Student status",
+              "displayName": "Student status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pending Confirmation",
+              "displayName": "Pending Confirmation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Hard to Contact",
+              "displayName": "Hard to Contact",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Requested Schedule",
+              "displayName": "Requested Schedule",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Areas of Support",
+              "displayName": "Areas of Support",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Parent Requested Mode of Services",
+              "displayName": "Parent Requested Mode of Services",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Virtual Tutor List",
+              "displayName": "Virtual Tutor List",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Current Virtual Tutor",
+              "displayName": "Current Virtual Tutor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "In Home Tutor List",
+              "displayName": "In Home Tutor List",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Current In Home Tutor",
+              "displayName": "Current In Home Tutor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Additional Notes",
+              "displayName": "Additional Notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Parent Feedback",
+              "displayName": "Parent Feedback",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Parent Feedback (orginal AG)",
+              "displayName": "Parent Feedback (orginal AG)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Start Date Track",
+              "displayName": "Start Date Track",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Validation: CONCAT Service Dates",
+              "displayName": "Validation: CONCAT Service Dates",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Validation: Contract Service Date",
+              "displayName": "Validation: Contract Service Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Validation: Current Auth Expiration Date",
+              "displayName": "Validation: Current Auth Expiration Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Validation:\nService Date = Expiration Date",
+              "displayName": "Validation:\nService Date = Expiration Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Standardized SC Names",
+              "displayName": "Standardized SC Names",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        160,
+        -128
+      ],
+      "id": "45da5564-8281-4189-af3f-105d93503edd",
+      "name": "Update row in sheet (4th authorization)",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "8VvWefvAHkhnoeWe",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1BSmewDIKACfE3R52vO5bFVV4pwwgr_NDjpYhFoOII4Q",
+          "mode": "list",
+          "cachedResultName": "Copy of AI automation example sheet 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BSmewDIKACfE3R52vO5bFVV4pwwgr_NDjpYhFoOII4Q/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BSmewDIKACfE3R52vO5bFVV4pwwgr_NDjpYhFoOII4Q/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [
+            "UCI"
+          ],
+          "schema": [
+            {
+              "id": "UCI",
+              "displayName": "UCI",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Student",
+              "displayName": "Student",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Guardian Name",
+              "displayName": "Guardian Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CL Director",
+              "displayName": "CL Director",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Spanish",
+              "displayName": "Spanish",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Category",
+              "displayName": "Category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Assessment",
+              "displayName": "Assessment",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Authorization Comments",
+              "displayName": "Authorization Comments",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Contract Service Date 1st Auth",
+              "displayName": "Contract Service Date 1st Auth",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "2nd Authorization",
+              "displayName": "2nd Authorization",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "3rd Authorization",
+              "displayName": "3rd Authorization",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "4th Authorization",
+              "displayName": "4th Authorization",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Current Auth Expiration Date Format: MM/DD/YY",
+              "displayName": "Current Auth Expiration Date Format: MM/DD/YY",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Requested Authorization (Pending)",
+              "displayName": "Requested Authorization (Pending)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Hours Per Month",
+              "displayName": "Hours Per Month",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Upcoming Renewal Status",
+              "displayName": "Upcoming Renewal Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Summer",
+              "displayName": "Summer",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Authorization Status",
+              "displayName": "Authorization Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "SC\n(First Name Last Name)",
+              "displayName": "SC\n(First Name Last Name)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Student status",
+              "displayName": "Student status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pending Confirmation",
+              "displayName": "Pending Confirmation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Hard to Contact",
+              "displayName": "Hard to Contact",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Requested Schedule",
+              "displayName": "Requested Schedule",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Areas of Support",
+              "displayName": "Areas of Support",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Parent Requested Mode of Services",
+              "displayName": "Parent Requested Mode of Services",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Virtual Tutor List",
+              "displayName": "Virtual Tutor List",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Current Virtual Tutor",
+              "displayName": "Current Virtual Tutor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "In Home Tutor List",
+              "displayName": "In Home Tutor List",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Current In Home Tutor",
+              "displayName": "Current In Home Tutor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Additional Notes",
+              "displayName": "Additional Notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Parent Feedback",
+              "displayName": "Parent Feedback",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Parent Feedback (orginal AG)",
+              "displayName": "Parent Feedback (orginal AG)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Start Date Track",
+              "displayName": "Start Date Track",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Validation: CONCAT Service Dates",
+              "displayName": "Validation: CONCAT Service Dates",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Validation: Contract Service Date",
+              "displayName": "Validation: Contract Service Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Validation: Current Auth Expiration Date",
+              "displayName": "Validation: Current Auth Expiration Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Validation:\nService Date = Expiration Date",
+              "displayName": "Validation:\nService Date = Expiration Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Standardized SC Names",
+              "displayName": "Standardized SC Names",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        160,
+        -304
+      ],
+      "id": "50763167-64b8-415e-8ec1-688c2c7dd9b2",
+      "name": "Update row in sheet (3rd authorization)",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "8VvWefvAHkhnoeWe",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "jonathanmlgy@gmail.com",
+        "subject": "Error",
+        "emailType": "text",
+        "message": "Failed node: {{$json.failed_node}}\n\nError:\n{{$json.error_message}}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        -480,
+        -336
+      ],
+      "id": "e1ba0951-761d-4a83-82e4-8485881fdd99",
+      "name": "Error Alert",
+      "webhookId": "6f496cb1-5f8d-42fd-9b18-98463272b7e6",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "vY104NQkEaKZKelI",
+          "name": "Gmail OAuth2 API"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "📁 Watch Drive Folder": {
+      "main": [
+        [
+          {
+            "node": "🔎 Is it a PDF?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔎 Is it a PDF?": {
+      "main": [
+        [
+          {
+            "node": "⬇️ Download PDF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⬇️ Download PDF": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📊 Append to Google Sheet": {
+      "main": [
+        []
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "if existing client",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "if existing client": {
+      "main": [
+        [
+          {
+            "node": "check authorization",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "📊 Append to Google Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "check authorization": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet (2nd authorization)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Update row in sheet (3rd authorization)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Update row in sheet (4th authorization)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": true
+  },
+  "versionId": "646a239a-654b-4dd0-ab5f-6e6b7f1d7bca",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "5d2ee2a81416295b1af4a912e1b70b1fe53e2caf5ea201cf84c037b87b06d2e9"
+  },
+  "id": "rgLpi9Z243JmmQxz",
+  "tags": []
+}
