@@ -1,0 +1,3 @@
+UCI,student_name,guardian_name,authorization_comments,authorization_date,current_auth_exp_date,hours_per_month,requested_schedule,parent_requested_mode_of_services,parent_feedback,start_date_track
+EXAMPLE001,Jane Doe,John Doe,Approved for ABA therapy services,09/01/26 - 12/31/26,12/31/26,10 hours/month (09/01/26 - 12/31/26),3pm-7pm M-Th virtual,virtual,Parent requests consistent schedule,Track A
+EXAMPLE002,Bob Smith,Mary Smith,Pending review,10/01/26 - 12/31/26,12/31/26,6 hours/month (10/01/26 - 12/31/26),9am-12pm M-W-F in-person,in-person,,Track B
